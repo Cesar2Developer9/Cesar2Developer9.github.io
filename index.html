@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
 	<title>César2Developer9</title>
+		        <link rel="stylesheet" href="multiscroll/jquery.multiscroll.css">
 	<!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
       
 </head>
 <body>
@@ -16,50 +18,72 @@
       <div class="nav-wrapper">
       <a href="index.html" class="brand-logo">César2Developer9</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">   
+      <ul class="right hide-on-med-and-down">  
+      	<li><a href="index.html">Inicio</a></li> 
+      	<li><a href="puzzle.html">Puzzle</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
+      	<li><a href="index.html">Inicio</a></li>
+      	<li><a href="puzzle.html">Puzzle</a></li>
       </ul>
       </div>
     </nav>
   </div>
 
-
-  <div class="parallax-container">
-    <div class="parallax"><img src="http://tecnologiasweb.jsenso.es/wp-content/uploads/2014/11/aF100005271.jpg"></div>
-  </div>
-  <div class="section white">
-    <div class="row container">
-     <h2 class="header">Titulo Publicación </h2>
-     <div class="divider"></div>
-	  <div class="section">
-	    <h5>Titulo</h5>
-	    <p>Contenido</p>
-	  </div>
+  <div class="section" id="multiscroll">
+    <div class="ms-left">
+        <div class="ms-section">
+        	<img src="images/2.jpg" alt="" class="responsive-img">
+		</div>
+        <div class="ms-section" style="color: white;">
+        	<div class="content">
+        		<div class="row">
+        			<div class="col s8 offset-s4">
+        				<h1>Cesar2</h1> <h1>Developer9</h1>
+        				<h2>Estudiante de noveno semestre</h2>
+        				<h3>Licenciatura en Informática</h3>
+        			</div>
+        		</div>
+        	</div>
+        </div>	
+        <div class="ms-section">----------------------</div>
+    </div>
+    <div class="ms-right">
+        <div class="ms-section">
+        	<div class="content">
+        		<h1>REPORTES</h1>
+				<h2>Inteligencia<br />Artifical</h2>
+			</div>
+        </div>
+        <div class="ms-section"><img src="images/1.jpg" alt="" class="responsive-img"></div>
+        <div class="ms-section">-------------------</div>
     </div>
   </div>
-  <div class="parallax-container">
-    <div class="parallax"><img src="http://soycodigofuente.com/wp-content/uploads/html.jpg"></div>
-  </div>
-  <footer class="black">
-         
-        <div class="row">
-             
-        </div>
-         
-        <div class="footer-copyright">
-            <div class="container" style="color: white;">
-            © 2015 César2Developer9
-           
-            </div>
-         </div>
-   </footer>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="multiscroll/jquery.multiscroll.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
-   <script type="text/javascript">
+   <script>
    	$(document).ready(function(){
-      $('.parallax').parallax();
+   		$(".button-collapse").sideNav();
+
+     $('#multiscroll').multiscroll({
+	    		sectionsColor: ['#BDBDBD', '#000', '#424242'],
+	        	anchors: ['first', 'second', 'third'],
+	        	menu: '#menu',
+	        	navigation: true,
+	        	navigationTooltips: ['First', 'Second', 'Third'],
+
+	        	afterLoad: function(anchor, index){
+	        		if(index==2 || index == 3){
+	        			$('#infoMenu li a').css('color', '#f2f2f2');
+	        		}
+					if(index==1){
+						$('#infoMenu li a').css('color', '#333');	
+					}
+	        	}
+	  	 	});
+
     });
         
    </script>
