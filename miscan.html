@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+	<title>César2Developer9</title>
+	<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+ 	<div class="navbar-fixed">
+    <nav class="black">
+      <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo">César2Developer9</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down"> 
+        <li><a href="index.html">Inicio</a></li>  
+        <li><a href="puzzle.html">Puzzle</a></li>
+		<li><a href="miscan.html">Misioneros y Caníbales</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="puzzle.html">Puzzle</a></li>
+		<li><a href="miscan.html">Misioneros y Caníbales</a></li>
+      </ul>
+      </div>
+    </nav>
+  </div>
+
+
+  <div class="parallax-container">
+    <div class="parallax"><img src="http://pclab.pl/zdjecia/artykuly/surmacz/wrl/klaw8.jpg"></div>
+  </div>
+  <div class="section white">
+    <div class="row container">
+     <h1 class="header">Misioneros y Caníbales</h1>
+     <div class="divider"></div>
+	  <div class="section">
+	    <h3>Problema</h3>
+	    <p>
+	    	En un mundo alterno existen 3 misioneros y 3 caníbales que se encuentran del lado izquierdo de un río. Todos deben pasar al lado derecho del mismo.¶
+			Para pasar al otro lado cuentan con un bote. Sin embargo, la capacidad máxima del bote es de dos personas.
+			Es imperativo que en un momento dado no haya más caníbales que misioneros en un lado del río porque se comerían a los misioneros.
+
+	    </p>
+	  </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h3>Representación</h3>
+      <p>La representación se basa en un diccionario para conocer que estados han sido visitados y no volver a visitar, cada estado está formado por la posición 0 que contiene un arreglo el cual indica el número de misioneros y caníbales que se encuentran del lado izquierdo y la posición 1 que indica cuantos hay de cada uno en el lado derecho, además de uno que indica en qué lado del río se encuetran el bote.</p>
+    </div>
+    
+    <div class="divider"></div>
+    <div class="section">
+      <h3>Implementación</h3>
+      <pre>
+
+from collections import deque
+import copy
+import sys
+def valido(s):#Fución de validación de estado válido
+    if(s[0][0]>3 or s[0][0]&#60 0 or s[0][1]>3 or s[0][1]&#60 0 or s[1][0]>3 or s[1][0] &#60 0 or s[1][1]>3 or s[1][1] &#60 0):
+        return False
+    return True
+
+def Solucion(inicial,final):
+    ####################### 
+    estados=0 
+    visitados={}
+    visitados[str(inicial)]=inicial
+    cola=deque()
+    cola.append(inicial) 
+    tmp=None
+    while cola:
+        #Extraer elementos de la cola mientras no se encuentre vacía
+        tmp=None
+        tmp=copy.deepcopy(cola.pop())
+        estados=estados+1
+        print('-----')
+        print(tmp)
+        print('-----')
+        if (tmp==final):
+            print('Hecho')
+            return 
+        ###################################
+        if(tmp['botei']==1):
+            ####Se pasan dos caníbales
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][0]=state[0][0]-2
+            state[1][0]=state[1][0]+2
+            state['botei']=0
+            state['boted']=1
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            ####Se pasan dos misioneros
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][1]=state[0][1]-2
+            state[1][1]=state[1][1]+2
+            state['botei']=0
+            state['boted']=1
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            ####Se pasan 1 misionero y un canibal
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][0]=state[0][0]-1
+            state[1][0]=state[1][0]+1
+            state[0][1]=state[0][1]-1
+            state[1][1]=state[1][1]+1
+            state['botei']=0
+            state['boted']=1
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            ####Se pasan un caníbal
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][0]=state[0][0]-1
+            state[1][0]=state[1][0]+1
+            state['botei']=0
+            state['boted']=1
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            ####Se pasan un misionero
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][1]=state[0][1]-1
+            state[1][1]=state[1][1]+1
+            state['botei']=0
+            state['boted']=1
+            
+            if(valido(state)):
+                 if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            print('____________________________')
+        elif(tmp['boted']==1):
+            ####Se pasan dos caníbales
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][0]=state[0][0]+2
+            state[1][0]=state[1][0]-2
+            state['botei']=1
+            state['boted']=0
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            ####Se pasan dos misioneros
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][1]=state[0][1]+2
+            state[1][1]=state[1][1]-2
+            state['botei']=1
+            state['boted']=0
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            ####Se pasan 1 misionero y un canibal
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][0]=state[0][0]+1
+            state[1][0]=state[1][0]-1
+            state[0][1]=state[0][1]+1
+            state[1][1]=state[1][1]-1
+            state['botei']=1
+            state['boted']=0
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            ####Se pasan un caníbal
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][0]=state[0][0]+1
+            state[1][0]=state[1][0]-1
+            state['botei']=1
+            state['boted']=0
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            ############################
+            ####Se pasa un misionero
+            state=None
+            state=copy.deepcopy(tmp)
+            state[0][1]=state[0][1]+1
+            state[1][1]=state[1][1]-1
+            state['botei']=1
+            state['boted']=0  
+            if(valido(state)):
+                if str(state) not in visitados:
+                    visitados[str(state)]=state
+                    cola.append(state) 
+            print('____________________________')
+
+            ############################
+       
+    
+    
+
+
+                </pre>
+    </div>
+
+    </div>
+    </div>
+    <div class="parallax-container">
+      <div class="parallax"><img src="http://echandola.com/wp-content/uploads/cruzacanivales.jpg"></div>
+    </div>
+    <div class="section white">
+      
+      <div class="divider"></div>
+       <div class="row container">
+      <div class="section">
+        <h3>Ejemplos</h3>
+        <p>El valor de P es el estado inicial en donde los 3 misioneros y 3 caníbales se encuentran del lado izquierdo del río para poder llegar al lado derecho.</p>
+        <pre>
+# Canibales, misioneros       
+P={}
+P[0]=[3,3]
+P[1]=[0,0]
+P['botei']=1
+P['boted']=0
+
+PF={}
+PF[0]=[0,0]
+PF[1]=[3,3]
+PF['botei']=0
+PF['boted']=1
+
+Solucion(P,PF)
+</pre>
+          <p>En el cual después de ejecutar el algoritmo se obtuvieron los siguientes resultados.</p>
+          <pre>-----
+{0: [3, 3], 1: [0, 0], 'botei': 1, 'boted': 0}
+-----
+____________________________
+-----
+{0: [3, 2], 1: [0, 1], 'botei': 0, 'boted': 1}
+-----
+____________________________
+-----
+{0: [2, 3], 1: [1, 0], 'botei': 0, 'boted': 1}
+-----
+____________________________
+-----
+{0: [2, 2], 1: [1, 1], 'botei': 0, 'boted': 1}
+-----
+____________________________
+-----
+{0: [2, 3], 1: [1, 0], 'botei': 1, 'boted': 0}
+-----
+____________________________
+-----
+{0: [1, 2], 1: [2, 1], 'botei': 0, 'boted': 1}
+-----
+____________________________
+-----
+{0: [1, 3], 1: [2, 0], 'botei': 1, 'boted': 0}
+-----
+____________________________
+-----
+{0: [0, 2], 1: [3, 1], 'botei': 0, 'boted': 1}
+-----
+____________________________
+-----
+{0: [0, 3], 1: [3, 0], 'botei': 1, 'boted': 0}
+-----
+____________________________
+-----
+{0: [0, 1], 1: [3, 2], 'botei': 0, 'boted': 1}
+-----
+____________________________
+-----
+{0: [0, 2], 1: [3, 1], 'botei': 1, 'boted': 0}
+-----
+____________________________
+-----
+{0: [0, 0], 1: [3, 3], 'botei': 0, 'boted': 1}
+-----
+Hecho</pre>
+      </div>
+      </div>
+    
+    </div>
+
+
+  <div class="parallax-container">
+    <div class="parallax"><img src="http://soycodigofuente.com/wp-content/uploads/html.jpg"></div>
+  </div>
+
+  <footer class="black">
+         
+        <div class="row">
+             
+        </div>
+         
+        <div class="footer-copyright">
+            <div class="container" style="color: white;">
+            © 2015 César2Developer9
+           
+            </div>
+         </div>
+   </footer>
+   <!-- http://tecnologiasweb.jsenso.es/wp-content/uploads/2014/11/aF100005271.jpg -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+   <script>
+   	$(document).ready(function(){
+      $('.button-collapse').sideNav();
+      $('.parallax').parallax();
+ 
+    });
+        
+   </script>
+
+</body>
+</html>
